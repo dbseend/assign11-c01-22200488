@@ -52,8 +52,14 @@ public class PostController {
     @PostMapping("/posts")
     public String create(@Valid @ModelAttribute("postForm") PostForm form, BindingResult errors,
                          @RequestParam(name = "files", required = false) List<MultipartFile> files) {
+        // 검증(@Valid) 실패 시 저장하지 않고, 입력값과 오류 메시지를 유지한 채 작성 폼으로 되돌아간다.
         if (errors.hasErrors()) return "posts/form";
+
+        // 파일을 선택하지 않으면 files가 null이므로 빈 리스트로 대체해 Service의 반복문 실행 시 NPE가 나지 않게 한다.
+        // 게시글과 첨부파일 저장은 PostService.create()가 처리하고, 저장된 게시글 id를 반환받는다.
         Long id = posts.create(form, files == null ? List.of() : files);
+
+        // 저장 후 상세 페이지로 redirect하여, 새로고침 시 같은 게시글이 중복 등록되지 않게 한다.
         return "redirect:/posts/" + id;
     }
 

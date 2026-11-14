@@ -38,9 +38,9 @@ public class FileStorageService {
         // [업로드된 파일 내용이 비어 있는지 검증]
         if (file.isEmpty()) throw new IllegalArgumentException("빈 파일은 업로드할 수 없습니다.");
 
-        // [클라이언트가 보낸 원본 파일명에 검증 ]
-        // 1. Path Traversal: "/", "\\", ".."가 포함되는 경우
-        // 2. 대해서 파일명 길이 제한: 240 이내
+        // [클라이언트가 보낸 원본 파일명에 검증]
+        // 1. Path Traversal: "/", "\\", ".."가 포함되는 경우 거부
+        // 2. 파일명 길이 제한: 240 이내
         String original = file.getOriginalFilename();
         if (original == null || original.isBlank() || original.contains("/") || original.contains("\\") || original.contains(".."))
             throw new IllegalArgumentException("잘못된 파일 이름입니다.");
@@ -65,7 +65,7 @@ public class FileStorageService {
         // [실제 파일 저장] getInputStream()으로 업로드 데이터를 읽어 Files.copy()로 디스크에 저장
         try (InputStream input = file.getInputStream()) {
             Files.copy(input, target, StandardCopyOption.REPLACE_EXISTING);
-            // Teaching sample: MIME type is inferred by extension, not trusted from request headers.
+            // 요청 헤더의 Content-Type은 조작될 수 있으므로, 검증된 확장자를 기준으로 서버가 MIME 타입을 직접 결정한다.
             String contentType = switch (ext) {
                 case "jpg", "jpeg" -> "image/jpeg";
                 case "png" -> "image/png";
