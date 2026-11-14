@@ -1,8 +1,112 @@
-body { background:#f5f7fb; color:#1b2841; }
-a { text-decoration:none; }
-h1 { font-size:2rem; font-weight:750; letter-spacing:-0.04em; }
-.eyebrow { color:#64748b; font-size:.75rem; font-weight:700; letter-spacing:.1em; margin-bottom:.7rem; }
-.card { border:0; border-radius:16px; }
-.post-content { margin-top:1.5rem; white-space:pre-wrap; min-height:90px; line-height:1.8; }
-.table th { color:#64748b; font-size:.83rem; background:#f8fafc; }
-.table td, .table th { padding-top:1rem; padding-bottom:1rem; }
+body {
+    background: linear-gradient(180deg, #e0f2f1 0, #f5f7fb 320px) no-repeat;
+    background-color: #f5f7fb;
+    color: #1b2841;
+}
+
+a {
+    color: #0f766e;
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 750;
+    letter-spacing: -0.04em;
+}
+
+.eyebrow {
+    color: #0f766e;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    margin-bottom: .7rem;
+}
+
+.card {
+    border: 0;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(15, 118, 110, .10) !important;
+}
+
+.post-content {
+    margin-top: 1.5rem;
+    white-space: pre-wrap;
+    min-height: 90px;
+    line-height: 1.8;
+}
+
+.table th {
+    color: #64748b;
+    font-size: .83rem;
+    background: #f8fafc;
+}
+
+.table td, .table th {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* ---- STEP 3 Customizing ---- */
+.container.list-page {
+    max-width: 960px;
+}
+
+.summary {
+    color: #64748b;
+    font-size: .9rem;
+    margin-top: .4rem;
+}
+
+.btn {
+    border-radius: 10px;
+}
+
+.btn-primary {
+    --bs-btn-bg: #0f766e;
+    --bs-btn-border-color: #0f766e;
+    --bs-btn-hover-bg: #115e59;
+    --bs-btn-hover-border-color: #115e59;
+    --bs-btn-active-bg: #134e4a;
+    --bs-btn-active-border-color: #134e4a;
+    --bs-btn-disabled-bg: #0f766e;
+    --bs-btn-disabled-border-color: #0f766e;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #0f766e;
+    --bs-btn-border-color: #0f766e;
+    --bs-btn-hover-bg: #0f766e;
+    --bs-btn-hover-border-color: #0f766e;
+    --bs-btn-active-bg: #0f766e;
+    --bs-btn-active-border-color: #0f766e;
+}
+
+.table {
+    --bs-table-hover-bg: #ecf8f6;
+}
+
+.badge-file {
+    display: inline-block;
+    padding: .25rem .65rem;
+    border-radius: 999px;
+    background: #e0f2f1;
+    color: #0f766e;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.file-type {
+    background: #0f766e;
+    color: #fff;
+    font-size: .7rem;
+    letter-spacing: .05em;
+}
+
+.list-group-item {
+    transition: background .15s;
+}
+
+.list-group-item:hover {
+    background: #f0faf8;
+}

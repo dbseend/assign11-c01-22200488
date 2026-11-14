@@ -35,7 +35,7 @@ Spring Boot + Thymeleaf + JPA + MariaDB: 게시글 CRUD / 다중 첨부파일 �
 - `spring.jpa.hibernate.ddl-auto=update`는 학습용 설정이며 운영 DB에는 그대로 사용하지 않습니다.
 - Render 기본 파일 시스템에 저장된 업로드 파일은 재시작/재배포 시 유지되지 않을 수 있습니다. 이번 과제는 **로컬 파일 처리**를 평가합니다.
 
-## STEP 2. Source Code Exploration & Analysis
+## 3. Source Code Exploration & Analysis
 
 ### Project Structure & Spring MVC
 - 참조 소스파일: PostController.java, PostService.java, PostRepository.java
@@ -82,3 +82,42 @@ Spring Boot + Thymeleaf + JPA + MariaDB: 게시글 CRUD / 다중 첨부파일 �
 
 2. 파일 저장 과정에서 normalize()와 startsWith()를 사용하는 이유는 무엇인가?
    - Path Traversal 공격을 방어하기 위해서이다. 지정된 업로드 디렉터리 밖에 악성 파일이 저장되거나 기존 파일이 덮어씌워지는 보안 사고를 막는다.
+
+## 4. Customizing
+### 수정 내용
+1. Text
+- 목록 제목: 자료 공유 게시판 → HGU 자료실
+- 목록 버튼: 게시글 작성 → 새 자료 올리기
+- 폼 제목: 게시글 작성/수정 → 새 자료 올리기/자료 수정하기
+- 폼 버튼: 저장 → 자료 등록/수정 완료
+- 업로드 안내 문구를 “📎 업로드 가능: … · 여러 파일 동시 선택 가능”으로 보강
+
+2. Style (app.css)
+- 배경: 단색 → 민트 그라디언트
+- 포인트 색: 파랑 → teal  #0f766e (버튼, 링크)
+- 카드 모서리 20px + 그림자, 목록 최대 폭 960px
+
+3. UI/Data
+- 파일 크기: 9096 KB → 2.9 MB / 99.3 KB (자동 단위 전환)
+- 파일명 앞에 확장자 배지(PDF) 추가
+- 목록 첨부 개수: 1개 → 📎 1개 배지, 헤더에 등록된 자료 N건 표시
+
+### 수정 전
+- 목록 페이지
+![11주차_STEP3_01_변경전_목록.png](images/11%EC%A3%BC%EC%B0%A8_STEP3_01_%EB%B3%80%EA%B2%BD%EC%A0%84_%EB%AA%A9%EB%A1%9D.png)
+- 작성폼 페이지
+![11주차_STEP3_02_변경전_작성폼.png](images/11%EC%A3%BC%EC%B0%A8_STEP3_02_%EB%B3%80%EA%B2%BD%EC%A0%84_%EC%9E%91%EC%84%B1%ED%8F%BC.png)
+- 상세 페이지
+![11주차_STEP3_03_변경전_상세.png](images/11%EC%A3%BC%EC%B0%A8_STEP3_03_%EB%B3%80%EA%B2%BD%EC%A0%84_%EC%83%81%EC%84%B8.png)
+- 수정 페이지
+![11주차_STEP3_04_변경전_수정폼.png](images/11%E1%84%8C%E1%85%AE%E1%84%8E%E1%85%A1_STEP3_04_%E1%84%87%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB_%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%91%E1%85%A9%E1%86%B7.png)
+
+## 수정 후
+- 목록 페이지
+![11주차_STEP3_05_변경후_목록.png](images/11%E1%84%8C%E1%85%AE%E1%84%8E%E1%85%A1_STEP3_05_%E1%84%87%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%BC%E1%84%92%E1%85%AE_%E1%84%86%E1%85%A9%E1%86%A8%E1%84%85%E1%85%A9%E1%86%A8.png)
+- 작성폼 페이지
+![11주차_STEP3_06_변경후_작성폼.png](images/11%E1%84%8C%E1%85%AE%E1%84%8E%E1%85%A1_STEP3_06_%E1%84%87%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%BC%E1%84%92%E1%85%AE_%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC%E1%84%91%E1%85%A9%E1%86%B7.png)
+- 상세 페이지
+![11주차_STEP3_07_변경후_상세.png](images/11%E1%84%8C%E1%85%AE%E1%84%8E%E1%85%A1_STEP3_07_%E1%84%87%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%BC%E1%84%92%E1%85%AE_%E1%84%89%E1%85%A1%E1%86%BC%E1%84%89%E1%85%A6.png)
+- 수정 페이지
+![11주차_STEP3_08_변경후_수정폼.png](images/11%E1%84%8C%E1%85%AE%E1%84%8E%E1%85%A1_STEP3_08_%E1%84%87%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%BC%E1%84%92%E1%85%AE_%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%91%E1%85%A9%E1%86%B7.png)
