@@ -121,3 +121,20 @@ Spring Boot + Thymeleaf + JPA + MariaDB: 게시글 CRUD / 다중 첨부파일 �
 ![11주차_STEP3_07_변경후_상세.png](images/11%E1%84%8C%E1%85%AE%E1%84%8E%E1%85%A1_STEP3_07_%E1%84%87%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%BC%E1%84%92%E1%85%AE_%E1%84%89%E1%85%A1%E1%86%BC%E1%84%89%E1%85%A6.png)
 - 수정 페이지
 ![11주차_STEP3_08_변경후_수정폼.png](images/11%E1%84%8C%E1%85%AE%E1%84%8E%E1%85%A1_STEP3_08_%E1%84%87%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%BC%E1%84%92%E1%85%AE_%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%91%E1%85%A9%E1%86%B7.png)
+
+## 5. New Feature
+### 구현 내용
+- 상세 화면에서 첨부 이미지(jpg, jpeg, png, gif)를 미리보기 표시
+- PDF, TXT 등 이미지가 아닌 파일은 미리보기 없이 기존 다운로드 버튼 유지
+- 존재하지 않는 파일과 잘못된 ID는 오류 응답 처리
+
+### 요청 흐름
+- 상세 화면 로드 → 이미지 첨부마다 /attachments/{id}/view 호출
+- Controller가 Repository에서 메타데이터 조회 → 이미지 타입 확인 → FileStorageService.load()로 Resource 생성
+- ResponseEntity로 Content-Type(image/jpeg, png, gif)과 Content-Disposition: inline을 설정해 응답
+
+### 수정 파일
+- AttachmentController.java: GET /attachments/{id}/view 추가
+- detail.html: 이미지 첨부에 한해 이미지 미리포기 표시
+- app.css: .preview-img 스타일 추가
+![11주차_STEP_04_미리보기.png](images/11%EC%A3%BC%EC%B0%A8_STEP_04_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.png)

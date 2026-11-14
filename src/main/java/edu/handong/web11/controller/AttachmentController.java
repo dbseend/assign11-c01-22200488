@@ -8,10 +8,13 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/attachments")
 public class AttachmentController {
+    // 미리보기를 허용하는 이미지 MIME 타입 (jpg, jpeg, png, gif). 저장 시 서버가 확장자 기준으로 정한 값이다.
+    private static final Set<String> PREVIEWABLE = Set.of("image/jpeg", "image/png", "image/gif");
     private final AttachmentRepository attachments;
     private final FileStorageService storage;
 
@@ -48,5 +51,34 @@ public class AttachmentController {
             .body(resource);
     }
 
-    // STUDENT TODO: GET /attachments/{id}/view (image preview).
+    /*
+     [이미지 미리보기]
+     - 상세 화면의 <img src="/attachments/{id}/view">가 이 경로를 호출한다.
+     - 다운로드와 달리 Content-Disposition을 inline으로 지정해, 브라우저가 파일을 저장하지 않고 화면에 바로 표시하게 한다.
+     - 오류 처리: 존재하지 않는 id → 404, 이미지가 아닌 파일(PDF 등) → 415, 디스크에 파일이 없음 → 404 (storage.load), 숫자가 아닌 id → 400
+     */
+    @GetMapping("/{id}/view")
+    public ResponseEntity<Resource> view(@PathVariable Long id) {
+        // DB에서 메타데이터 조회 (없으면 404)
+        Attachment file = attachments.findById(id).orElseThrow(() ->
+            new ResponseStatusException(HttpStatus.NOT_FOUND, "첨부파일이 없습니다."));
+
+        // 이미지(jpg, jpeg, png, gif)인지 확인. PDF/TXT는 미리보기 대상이 아니므로 거부한다.
+        if (!PREVIEWABLE.contains(file.getContentType()))
+            throw new ResponseStatusException(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "이미지 파일만 미리보기할 수 있습니다.");
+
+        // 실제 파일 로드 (디스크에 없으면 404)
+        Resource resource = storage.load(file);
+
+        // Content-Type은 DB에 저장된 값(image/jpeg 등)으로 정확히 지정, inline으로 화면 표시.
+        //    nosniff: 브라우저가 내용을 추측해 다른 타입으로 해석하지 못하게 한다.
+        String disposition = ContentDisposition.inline()
+            .filename(file.getOriginalFilename(), StandardCharsets.UTF_8)
+            .build().toString();
+        return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(file.getContentType()))
+            .header(HttpHeaders.CONTENT_DISPOSITION, disposition)
+            .header("X-Content-Type-Options", "nosniff")
+            .body(resource);
+    }
 }
