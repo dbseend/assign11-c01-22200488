@@ -138,3 +138,34 @@ Spring Boot + Thymeleaf + JPA + MariaDB: 게시글 CRUD / 다중 첨부파일 �
 - detail.html: 이미지 첨부에 한해 이미지 미리포기 표시
 - app.css: .preview-img 스타일 추가
 ![11주차_STEP_04_미리보기.png](images/11%EC%A3%BC%EC%B0%A8_STEP_04_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.png)
+
+## Testing
+### 필수 스크린샷
+- Sample Project 초기 실행 (Customizing 이전) 
+![11주차_STEP3_00_실행확인.png](results/11%EC%A3%BC%EC%B0%A8_STEP3_00_%EC%8B%A4%ED%96%89%ED%99%95%EC%9D%B8.png)
+- 파일 업로드
+![02_upload.png](results/02_upload.png)
+- 파일 다운로드
+![03_download.png](results/03_download.png)
+- 이미지 미리보기
+![04_preview.png](results/04_preview.png)
+
+### 오류 처리
+- /posts/9999 (없는 게시글)
+![05_error_post_404.png](results/05_error_post_404.png)
+- PDF의 /attachments/{id}/view
+![06_error_415.png](results/06_error_415.png)
+- /attachments/abc/view (숫자가 아닌 ID)
+![07_error_400.png](results/07_error_400.png)
+- /attachments/9999/view (없는 파일)
+![08_error_attachment_404.png](results/08_error_attachment_404.png)
+
+### 게시물 CRUD
+- 수정 폼
+![09_edit_form.png](results/09_edit_form.png)
+- 수정 결과
+![10_edit_result.png](results/10_edit_result.png)
+- 삭제 확인
+![11_delete_confirm.png](results/11_delete_confirm.png)
+- 삭제 결과
+![12_delete_result.png](results/12_delete_result.png)
